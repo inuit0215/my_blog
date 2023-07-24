@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
 import * as React from "react";
 import logo from "../assets/icon.png";
 import { Button, Typography } from "@mui/material";
 import "./Header.css";
-export default function Header() {
+
+export default function Header(props) {
   return (
     <div>
       <div className="App_Header">
@@ -33,17 +35,18 @@ export default function Header() {
           </Typography>
         </Button>
         <Button
+          onClick={props.onClick}
           style={{
             height: "80px",
             width: "200px",
-            margin: "10px 20px",
+            margin: "10px",
             fontSize: 24,
             fontWeight: "bold",
             color: "white",
             border: "2px solid white",
           }}
         >
-          新規作成
+          {props.buttonName}
         </Button>
       </div>
     </div>

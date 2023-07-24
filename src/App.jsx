@@ -1,11 +1,13 @@
 import React from "react";
-import Header from "./components/Header";
+// import EditPage from "./pages/EditPage";
+import MainPage from "./pages/MainPage";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <Header />
+      {/* <EditPage title="タイトル"/> */}
+      <MainPage title="タイトル"/>
     </div>
   );
 }

@@ -6,13 +6,17 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.13.7",
-    "@mui/material": "^5.13.7",
+    "@mui/material": "^5.14.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@uiw/react-md-editor": "^3.23.3",
+    "katex": "^0.16.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
+    "react-simplemde-editor": "^5.2.0",
+    "rehype-sanitize": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -41,8 +45,12 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "eslint": "^8.44.0",
+    "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
     "prettier": "3.0.0"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": ".eslintrc.js",
+  "author": "",
+  "license": "ISC"
 }

@@ -1,0 +1,15 @@
+.Container{
+    padding: 10px;
+    height: auto; 
+}
+
+.TextField{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.w-md-editor-text-pre > code,
+.w-md-editor-text-input {
+  font-size: 18px !important;
+  line-height: 24px !important;
+}
