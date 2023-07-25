@@ -12,7 +12,7 @@ export default function BlogCard(props) {
   const navigate = useNavigate();
   
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ maxWidth: 400}}>
       <CardActionArea 
         onClick={()=>
           navigate(

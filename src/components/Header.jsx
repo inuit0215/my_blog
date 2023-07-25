@@ -30,7 +30,6 @@ export default function Header(props) {
               height: "80px",
               width: "80px",
               verticalAlign: "middle",
-              paddingLeft: "10px",
             }}
           />
           <Typography

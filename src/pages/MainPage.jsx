@@ -62,6 +62,7 @@ export default function MainPage() {
                     navigate(
                         "/edit", 
                         {state: {
+                            id: -1,
                             title: 'タイトル', 
                             description: '説明文', 
                             body: mkdStr

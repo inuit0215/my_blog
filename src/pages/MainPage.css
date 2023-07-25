@@ -1,7 +1,12 @@
 .wrapper {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     grid-auto-rows: minmax(100px, auto);
     margin: 10px;
+}
+@media(max-width: 520px){
+  .wrapper {
+    grid-template-columns: 1fr;
   }
+}
