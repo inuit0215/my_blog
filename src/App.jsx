@@ -1,15 +1,16 @@
 import React from "react";
-// import EditPage from "./pages/EditPage";
+import EditPage from "./pages/EditPage";
 import MainPage from "./pages/MainPage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      {/* <EditPage title="タイトル"/> */}
-      <MainPage title="タイトル"/>
-    </div>
+    <BrowserRouter>
+      <Routes>
+          <Route path="/" element={<MainPage />}/>
+          <Route path="/edit" element={<EditPage />}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
-
-export default App;

@@ -1,38 +1,37 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
-import Header from "../components/Header";
-import MDEditor from "@uiw/react-md-editor";
-import "./EditPage.css";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import rehypeSanitize from "rehype-sanitize";
+import MDEditor from "@uiw/react-md-editor";
 import { TextField } from "@mui/material";
+import Header from "../components/Header";
+import "./EditPage.css";
 
-const mkdStr = `
-# Markdown Editor
+export default function EditPage() {
+  const [value, setValue] = useState("");
 
----
+  const navigate = useNavigate();
+  const location = useLocation();
 
-**Hello world!!!**
+  useEffect(() => { 
+    setValue(location.state.body);
+  }, [location.state.body]);
 
-[![](https://avatars.githubusercontent.com/u/1680273?s=80&v=4)](https://avatars.githubusercontent.com/u/1680273?v=4)
-
-\`\`\`javascript
-import React from "react";
-import ReactDOM from "react-dom";
-import MEDitor from '@uiw/react-md-editor';
-
-\`\`\`
-`;
-
-export default function EditPage(props) {
-  const [value, setValue] = useState(mkdStr);
   return (
     <>
-      <Header buttonName="登録"  onClick={()=>{}}/>
+      <Header buttonName="登録"  onClick={()=>{
+        //TODO: 登録処理
+        navigate("/")
+      }}/>
       <div className="Container">
         <TextField
           fullWidth
           class={"TextField"}
-          defaultValue={props.title} />
+          defaultValue={location.state.title} />
+        <TextField
+          fullWidth
+          class={"TextField"}
+          defaultValue={location.state.description} />
         <MDEditor
           value={value}
           height={"100%"}
