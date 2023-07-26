@@ -3,39 +3,65 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import CardActionArea  from '@mui/material/CardActionArea';
+import Typography from "@mui/material/Typography";
+import Fab from '@mui/material/Fab';
+import EditIcon from '@mui/icons-material/Edit';
 import logo from "../assets/icon.png";
 import { useNavigate } from "react-router-dom"
 
+function cuttingString(str, max_length){
+  var modStr;
+  if(str.length > max_length){
+    modStr = str.substr(0, max_length) + '...'
+  }else{
+    modStr = str
+  }
+  return modStr;
+}
+
 export default function BlogCard(props) {
   const navigate = useNavigate();
-  
+  const title = cuttingString(props.title, 30);
+  const description = cuttingString(props.description, 22);
   return (
-    <Card sx={{ maxWidth: 400}}>
+    <div style={{height: "350px", width: "420px"}}>
+    <Card sx={{ Width: 420, Height: 350}}>
       <CardActionArea 
         onClick={()=>
           navigate(
-            "/edit",
+            "/detail",
             {state: {
               id: props.id,
               title: props.title, 
               description: props.description, 
               body: props.body,
+              createdAt : props.createdAt,
             }}
         )}>
         <CardMedia
           component="img"
-          alt="green iguana"
-          height="140"
+          alt="記事"
+          Height={200}
           image={logo}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {props.title}
+        <CardContent
+          Height={150}
+        >
+          <Typography 
+            gutterBottom 
+            variant="h5" 
+            component="div"
+            style={{height: "60px", width: "400px"}}
+          >
+            {title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {props.description}
+          <Typography 
+            variant="body2" 
+            style={{height: "30px", width: "400px"}}
+            color="text.secondary"
+          >
+            {description}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {props.createdAt}
@@ -43,5 +69,25 @@ export default function BlogCard(props) {
         </CardContent>
       </CardActionArea>
     </Card>
+    <Fab 
+      style={{
+        position: "relative", 
+        top: "-70px", 
+        left: "350px", 
+        backgroundColor: "#192947"
+      }}
+      onClick={()=>
+        navigate(
+          "/edit",
+          {state: {
+            id: props.id,
+            title: props.title, 
+            description: props.description, 
+            body: props.body,
+          }}
+      )}>
+      <EditIcon style={{height: "25px", color: "white"}}/>
+    </Fab>
+</div>
   );
 }

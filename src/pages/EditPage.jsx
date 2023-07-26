@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -7,11 +6,13 @@ import MDEditor from "@uiw/react-md-editor";
 import { TextField } from "@mui/material";
 import Header from "../components/Header";
 import "./EditPage.css";
+import { PASSWORD } from '../components/Constant';
 
 export default function EditPage() {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDesc] = useState("");
+  const [password, setPassWord] = useState("パスワード");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,26 +28,29 @@ export default function EditPage() {
       <Header 
         buttonName="登録"  
         onClick={async ()=> {
-          if (location.state.id === -1) {
-            await axios.post(
-              "http://localhost:3000/blogs/", 
-              {
-                title : title, 
-                description: description, 
-                body: value, 
-                createdAt: new Date().toLocaleString(),
-              });
-            navigate("/")
-          } else {
-            await axios.put(
-              "http://localhost:3000/blogs/"+location.state.id, 
-              {
-                title : title, 
-                description: description, 
-                body: value, 
-                createdAt: new Date().toLocaleString(),
-              });
-            navigate("/")
+          if ( password === PASSWORD ) {
+
+            if (location.state.id === -1) {
+              await axios.post(
+                "http://localhost:3000/blogs/", 
+                {
+                  title : title, 
+                  description: description, 
+                  body: value, 
+                  createdAt: new Date().toLocaleString(),
+                });
+              navigate("/")
+            } else {
+              await axios.put(
+                "http://localhost:3000/blogs/"+location.state.id, 
+                {
+                  title : title, 
+                  description: description, 
+                  body: value, 
+                  createdAt: new Date().toLocaleString(),
+                });
+              navigate("/")
+            }
           }
       }}/>
       <div className="Container">
@@ -67,11 +71,19 @@ export default function EditPage() {
         }} />
         <MDEditor
           value={value}
-          height={"100%"}
+          height="100%"
           onChange={setValue}
           previewOptions={{
             rehypePlugins: [[rehypeSanitize]],
           }} />
+        <TextField
+          fullWidth
+          class={"TextField"}
+          value = {password}
+          onChange={e => {
+            setPassWord(e.target.value)
+        }}
+        />
       </div>
     </>
   )
