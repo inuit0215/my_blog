@@ -43,10 +43,10 @@ export default function BlogCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    title: [],
-    description: [],
-    body: [],
-    createdAt: [],
+    title: [{ type: "Required" }],
+    description: [{ type: "Required" }],
+    body: [{ type: "Required" }],
+    createdAt: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -125,7 +125,7 @@ export default function BlogCreateForm(props) {
     >
       <TextField
         label="Title"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={title}
         onChange={(e) => {
@@ -152,7 +152,7 @@ export default function BlogCreateForm(props) {
       ></TextField>
       <TextField
         label="Description"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={description}
         onChange={(e) => {
@@ -179,7 +179,7 @@ export default function BlogCreateForm(props) {
       ></TextField>
       <TextField
         label="Body"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={body}
         onChange={(e) => {
@@ -206,7 +206,7 @@ export default function BlogCreateForm(props) {
       ></TextField>
       <TextField
         label="Created at"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={createdAt}
         onChange={(e) => {

@@ -12,10 +12,10 @@ type EagerBlog = {
     readOnlyFields: 'updatedAt';
   };
   readonly id: string;
-  readonly title?: string | null;
-  readonly description?: string | null;
-  readonly body?: string | null;
-  readonly createdAt?: string | null;
+  readonly title: string;
+  readonly description: string;
+  readonly body: string;
+  readonly createdAt: string;
   readonly updatedAt?: string | null;
 }
 
@@ -25,10 +25,10 @@ type LazyBlog = {
     readOnlyFields: 'updatedAt';
   };
   readonly id: string;
-  readonly title?: string | null;
-  readonly description?: string | null;
-  readonly body?: string | null;
-  readonly createdAt?: string | null;
+  readonly title: string;
+  readonly description: string;
+  readonly body: string;
+  readonly createdAt: string;
   readonly updatedAt?: string | null;
 }
 

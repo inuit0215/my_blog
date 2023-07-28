@@ -33,23 +33,7 @@ export default function EditPage() {
             if (location.state.id === "-1") {
               try {
                 const createdAt = encodeURI(new Date().toLocaleString());
-                console.log(`
-                mutation MyMutation {
-                  createBlog(input: { 
-                    title: "${encodeURI(title)}",
-                    description: "${encodeURI(description)}",
-                    body: "${encodeURI(body)}",
-                    createdAt: "${encodeURI(createdAt)}",
-                   } ) {
-                    id
-                    title
-                    description
-                    body
-                    createdAt
-                  }
-                }
-              `);
-                const result = await API.graphql(
+                await API.graphql(
                   graphqlOperation(`
                   mutation MyMutation {
                     createBlog(input: { 
@@ -67,7 +51,6 @@ export default function EditPage() {
                   }
                 `)
                 );
-                console.log("New blog created:", result.data.createBlog);
               } catch (error) {
                 console.error("Error adding new blog:", error);
               }
@@ -75,7 +58,7 @@ export default function EditPage() {
             } else {
               try {
                 const createdAt = encodeURI(new Date().toLocaleString());
-                const result = await API.graphql(
+                await API.graphql(
                   graphqlOperation(`
                   mutation MyMutation {
                     updateBlog(input: { 
@@ -94,7 +77,6 @@ export default function EditPage() {
                   }
                 `)
                 );
-                console.log("New blog created:", result.data.createBlog);
               } catch (error) {
                 console.error("Error adding new blog:", error);
               }

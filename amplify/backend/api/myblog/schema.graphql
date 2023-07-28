@@ -1,8 +1,8 @@
 type Blog @model @auth(rules: [{allow: public}]) {
   id: ID!
-  title: String
-  description: String
-  body: String
-  createdAt: String
+  title: String!
+  description: String!
+  body: String!
+  createdAt: String!
 }
  
