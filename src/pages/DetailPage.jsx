@@ -1,83 +1,103 @@
-/* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+import rehypeSanitize from "rehype-sanitize";
+import MDEditor from "@uiw/react-md-editor";
+import { TextField } from "@mui/material";
 import Header from "../components/Header";
-import "./DetailPage.css";
-import ReactMarkdown from "react-markdown";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import "./EditPage.css";
+import { PASSWORD } from "../components/Constant";
 
-const mkdStr = `
-# マークダウンの例
-
----
-
-**Hello world!!!**
-
-[![](https://avatars.githubusercontent.com/u/1680273?s=80&v=4)](https://avatars.githubusercontent.com/u/1680273?v=4)
-
-\`\`\`javascript
-import React from "react";
-import ReactDOM from "react-dom";
-import MEDitor from '@uiw/react-md-editor';
-
-\`\`\`
-`;
-
-const components = {
-  code({ inline, className, children, ...props }) {
-    const match = /language-(\w+)/.exec(className || "");
-    return !inline && match ? (
-      <SyntaxHighlighter
-        style={dark}
-        language={match[1]}
-        PreTag="div"
-        {...props}
-      >
-        {String(children).replace(/\n$/, "")}
-      </SyntaxHighlighter>
-    ) : (
-      <code className={className} {...props}>
-        {children}
-      </code>
-    );
-  },
-};
-
-export default function MainPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-
+export default function EditPage() {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
-  const [createdAt, setCreatedAt] = useState("");
+  const [description, setDesc] = useState("");
+  const [password, setPassWord] = useState("パスワード");
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     setValue(location.state.body);
     setTitle(location.state.title);
-    setCreatedAt(location.state.createdAt);
+    setDesc(location.state.description);
   }, []);
 
   return (
-    <div>
+    <>
       <Header
-        buttonName="新規作成"
-        onClick={() =>
-          navigate("/edit", {
-            state: {
-              id: -1,
-              title: "タイトル",
-              description: "説明文",
-              body: mkdStr,
-            },
-          })
-        }
+        buttonName="登録"
+        onClick={async () => {
+          if (password === PASSWORD) {
+            if (location.state.id === -1) {
+              await axios.post("http://localhost:3000/blogs/", {
+                title: title,
+                description: description,
+                body: value,
+                createdAt: new Date().toLocaleString(),
+              });
+              navigate("/");
+            } else {
+              await axios.put(
+                "http://localhost:3000/blogs/" + location.state.id,
+                {
+                  title: title,
+                  description: description,
+                  body: value,
+                  createdAt: new Date().toLocaleString(),
+                }
+              );
+              navigate("/");
+            }
+          }
+        }}
       />
       <div className="Container">
-        <h1>{title}</h1>
-        {createdAt}
-        <ReactMarkdown components={components}>{value}</ReactMarkdown>
+        <TextField
+          fullWidth
+          class={"TextField"}
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+        />
+        <TextField
+          fullWidth
+          class={"TextField"}
+          value={description}
+          onChange={(e) => {
+            setDesc(e.target.value);
+          }}
+        />
+        <MDEditor
+          value={value}
+          height="100%"
+          onChange={setValue}
+          previewOptions={{
+            rehypePlugins: [[rehypeSanitize]],
+          }}
+        />
+        <TextField
+          fullWidth
+          class={"TextField"}
+          value={password}
+          onChange={(e) => {
+            setPassWord(e.target.value);
+          }}
+        />
       </div>
-    </div>
+    </>
   );
 }
+
+EditPage.propTypes = {
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      description: PropTypes.string,
+      body: PropTypes.string,
+    }),
+  }).isRequired,
+};

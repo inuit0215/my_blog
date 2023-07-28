@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types"; // Add this import
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import rehypeSanitize from "rehype-sanitize";
@@ -89,3 +90,14 @@ export default function EditPage() {
     </>
   );
 }
+
+EditPage.propTypes = {
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      description: PropTypes.string,
+      body: PropTypes.string,
+    }),
+  }).isRequired,
+};

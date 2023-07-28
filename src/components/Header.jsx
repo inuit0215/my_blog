@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
 import * as React from "react";
 import logo from "../assets/icon.png";
 import { Button, Typography } from "@mui/material";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export default function Header(props) {
   const navigate = useNavigate();
@@ -66,3 +66,9 @@ export default function Header(props) {
     </div>
   );
 }
+
+// PropTypes for type-checking
+Header.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  buttonName: PropTypes.string.isRequired,
+};
