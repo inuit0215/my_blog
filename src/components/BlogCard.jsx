@@ -88,7 +88,7 @@ export default function BlogCard(props) {
 }
 
 BlogCard.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,

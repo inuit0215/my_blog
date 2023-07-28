@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import BlogCard from "../components/BlogCard";
 import "./MainPage.css";
-import axios from "axios";
-
-// モックサーバーのURL db.json
-const blogsUrl = "http://localhost:3000/blogs";
+import { API, graphqlOperation } from "aws-amplify";
 
 const mkdStr = `
 # マークダウンの例
@@ -26,16 +22,35 @@ import MEDitor from '@uiw/react-md-editor';
 \`\`\`
 `;
 
+const listBlogsQuery = `
+  query ListBlogs {
+    listBlogs {
+      items {
+        id
+        title
+        body
+        createdAt
+        description
+      }
+    }
+  }
+`;
+
 export default function MainPage() {
   const [blogs, setBlogs] = useState([]);
 
-  const FetchJsonData = async () => {
-    const response = await axios.get(blogsUrl);
-    setBlogs(response.data);
-  };
+  async function fetchBlogs() {
+    try {
+      const apiData = await API.graphql(graphqlOperation(listBlogsQuery));
+      const blogsData = apiData.data.listBlogs.items;
+      setBlogs(blogsData);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  }
 
   useEffect(() => {
-    FetchJsonData();
+    fetchBlogs();
   }, []);
 
   const navigate = useNavigate();
@@ -45,10 +60,10 @@ export default function MainPage() {
       <div key={index}>
         <BlogCard
           id={blog.id}
-          title={blog.title}
-          body={blog.body}
+          title={decodeURI(blog.title)}
+          body={decodeURI(blog.body)}
           createdAt={blog.createdAt}
-          description={blog.description}
+          description={decodeURI(blog.description)}
         />
       </div>
     );
@@ -61,7 +76,7 @@ export default function MainPage() {
         onClick={() =>
           navigate("/edit", {
             state: {
-              id: -1,
+              id: "-1",
               title: "タイトル",
               description: "説明文",
               body: mkdStr,
@@ -73,15 +88,3 @@ export default function MainPage() {
     </div>
   );
 }
-
-MainPage.propTypes = {
-  blogs: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};

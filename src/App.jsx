@@ -4,6 +4,7 @@ import MainPage from "./pages/MainPage";
 import DetailPage from "./pages/DetailPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
+import "@aws-amplify/ui-react/styles.css";
 
 export default function App() {
   return (

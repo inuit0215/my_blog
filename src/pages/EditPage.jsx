@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types"; // Add this import
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import rehypeSanitize from "rehype-sanitize";
 import MDEditor from "@uiw/react-md-editor";
 import { TextField } from "@mui/material";
 import Header from "../components/Header";
 import "./EditPage.css";
 import { PASSWORD } from "../components/Constant";
+import { API, graphqlOperation } from "aws-amplify";
 
 export default function EditPage() {
-  const [value, setValue] = useState("");
+  const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDesc] = useState("");
   const [password, setPassWord] = useState("パスワード");
@@ -19,7 +19,7 @@ export default function EditPage() {
   const location = useLocation();
 
   useEffect(() => {
-    setValue(location.state.body);
+    setBody(location.state.body);
     setTitle(location.state.title);
     setDesc(location.state.description);
   }, []);
@@ -30,24 +30,74 @@ export default function EditPage() {
         buttonName="登録"
         onClick={async () => {
           if (password === PASSWORD) {
-            if (location.state.id === -1) {
-              await axios.post("http://localhost:3000/blogs/", {
-                title: title,
-                description: description,
-                body: value,
-                createdAt: new Date().toLocaleString(),
-              });
+            if (location.state.id === "-1") {
+              try {
+                const createdAt = encodeURI(new Date().toLocaleString());
+                console.log(`
+                mutation MyMutation {
+                  createBlog(input: { 
+                    title: "${encodeURI(title)}",
+                    description: "${encodeURI(description)}",
+                    body: "${encodeURI(body)}",
+                    createdAt: "${createdAt}",
+                   } ) {
+                    id
+                    title
+                    description
+                    body
+                    createdAt
+                  }
+                }
+              `);
+                const result = await API.graphql(
+                  graphqlOperation(`
+                  mutation MyMutation {
+                    createBlog(input: { 
+                      title: "${encodeURI(title)}",
+                      description: "${encodeURI(description)}",
+                      body: "${encodeURI(body)}",
+                      createdAt: "${createdAt}",
+                     } ) {
+                      id
+                      title
+                      description
+                      body
+                      createdAt
+                    }
+                  }
+                `)
+                );
+                console.log("New blog created:", result.data.createBlog);
+              } catch (error) {
+                console.error("Error adding new blog:", error);
+              }
               navigate("/");
             } else {
-              await axios.put(
-                "http://localhost:3000/blogs/" + location.state.id,
-                {
-                  title: title,
-                  description: description,
-                  body: value,
-                  createdAt: new Date().toLocaleString(),
-                }
-              );
+              try {
+                const createdAt = encodeURI(new Date().toLocaleString());
+                const result = await API.graphql(
+                  graphqlOperation(`
+                  mutation MyMutation {
+                    updateBlog(input: { 
+                      id: "${location.state.id}",
+                      title: "${encodeURI(title)}",
+                      description: "${encodeURI(description)}",
+                      body: "${encodeURI(body)}",
+                      createdAt: "${createdAt}",
+                     } ) {
+                      id
+                      title
+                      description
+                      body
+                      createdAt
+                    }
+                  }
+                `)
+                );
+                console.log("New blog created:", result.data.createBlog);
+              } catch (error) {
+                console.error("Error adding new blog:", error);
+              }
               navigate("/");
             }
           }
@@ -71,9 +121,9 @@ export default function EditPage() {
           }}
         />
         <MDEditor
-          value={value}
+          value={body}
           height="100%"
-          onChange={setValue}
+          onChange={setBody}
           previewOptions={{
             rehypePlugins: [[rehypeSanitize]],
           }}
