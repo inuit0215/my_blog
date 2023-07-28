@@ -3,25 +3,26 @@ import * as React from "react";
 import logo from "../assets/icon.png";
 import { Button, Typography } from "@mui/material";
 import "./Header.css";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 export default function Header(props) {
   const navigate = useNavigate();
   return (
     <div>
       <div className="App_Header">
-        <Button style={{
-          display: "flex",
-          height: "80px",
-          alignItems: "self-start",
-          justifyContent: "flex-start",
-          verticalAlign: "middle",
-          margin: "10px",
-          padding:"0px",
-          backgroundColor: "#192947",
-          border: "none",
-        }}
-        onClick={() => navigate("/")}
+        <Button
+          style={{
+            display: "flex",
+            height: "80px",
+            alignItems: "self-start",
+            justifyContent: "flex-start",
+            verticalAlign: "middle",
+            margin: "10px",
+            padding: "0px",
+            backgroundColor: "#192947",
+            border: "none",
+          }}
+          onClick={() => navigate("/")}
         >
           <img
             src={logo}

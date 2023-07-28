@@ -6,7 +6,7 @@ import MDEditor from "@uiw/react-md-editor";
 import { TextField } from "@mui/material";
 import Header from "../components/Header";
 import "./EditPage.css";
-import { PASSWORD } from '../components/Constant';
+import { PASSWORD } from "../components/Constant";
 
 export default function EditPage() {
   const [value, setValue] = useState("");
@@ -17,7 +17,7 @@ export default function EditPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => { 
+  useEffect(() => {
     setValue(location.state.body);
     setTitle(location.state.title);
     setDesc(location.state.description);
@@ -25,66 +25,67 @@ export default function EditPage() {
 
   return (
     <>
-      <Header 
-        buttonName="登録"  
-        onClick={async ()=> {
-          if ( password === PASSWORD ) {
-
+      <Header
+        buttonName="登録"
+        onClick={async () => {
+          if (password === PASSWORD) {
             if (location.state.id === -1) {
-              await axios.post(
-                "http://localhost:3000/blogs/", 
-                {
-                  title : title, 
-                  description: description, 
-                  body: value, 
-                  createdAt: new Date().toLocaleString(),
-                });
-              navigate("/")
+              await axios.post("http://localhost:3000/blogs/", {
+                title: title,
+                description: description,
+                body: value,
+                createdAt: new Date().toLocaleString(),
+              });
+              navigate("/");
             } else {
               await axios.put(
-                "http://localhost:3000/blogs/"+location.state.id, 
+                "http://localhost:3000/blogs/" + location.state.id,
                 {
-                  title : title, 
-                  description: description, 
-                  body: value, 
+                  title: title,
+                  description: description,
+                  body: value,
                   createdAt: new Date().toLocaleString(),
-                });
-              navigate("/")
+                }
+              );
+              navigate("/");
             }
           }
-      }}/>
+        }}
+      />
       <div className="Container">
         <TextField
           fullWidth
           class={"TextField"}
-          value = {title}
-          onChange={e => {
-            setTitle(e.target.value)
-        }}
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
         />
         <TextField
           fullWidth
           class={"TextField"}
-          value = {description}
-          onChange={e => {
-            setDesc(e.target.value)
-        }} />
+          value={description}
+          onChange={(e) => {
+            setDesc(e.target.value);
+          }}
+        />
         <MDEditor
           value={value}
           height="100%"
           onChange={setValue}
           previewOptions={{
             rehypePlugins: [[rehypeSanitize]],
-          }} />
+          }}
+        />
         <TextField
           fullWidth
           class={"TextField"}
-          value = {password}
-          onChange={e => {
-            setPassWord(e.target.value)
-        }}
+          value={password}
+          onChange={(e) => {
+            setPassWord(e.target.value);
+          }}
         />
       </div>
     </>
-  )
+  );
 }

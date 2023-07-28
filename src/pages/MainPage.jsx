@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import BlogCard from '../components/BlogCard';
-import './MainPage.css';
+import BlogCard from "../components/BlogCard";
+import "./MainPage.css";
 import axios from "axios";
 
 // モックサーバーのURL db.json
@@ -27,51 +27,49 @@ import MEDitor from '@uiw/react-md-editor';
 `;
 
 export default function MainPage() {
-    const [blogs, setBlogs] = useState([]);
-    
-    const FetchJsonData = async () => {
-        const response = await axios.get(blogsUrl);
-        setBlogs(response.data);
-      };
-    
-    useEffect(() => {
-        FetchJsonData();
-    }, []);
+  const [blogs, setBlogs] = useState([]);
 
-    const navigate = useNavigate();
+  const FetchJsonData = async () => {
+    const response = await axios.get(blogsUrl);
+    setBlogs(response.data);
+  };
 
-    const listBlogs = blogs.map((blog, index) => {
-        return (
-            <div key={index}>
-                <BlogCard 
-                    id={blog.id}
-                    title={blog.title} 
-                    body={blog.body} 
-                    createdAt={blog.createdAt}
-                    description={blog.description}
-                />
-            </div>
-        );
-    });
+  useEffect(() => {
+    FetchJsonData();
+  }, []);
 
+  const navigate = useNavigate();
+
+  const listBlogs = blogs.map((blog, index) => {
     return (
-        <div>
-            <Header 
-                buttonName="新規作成" 
-                onClick={() => 
-                    navigate(
-                        "/edit", 
-                        {state: {
-                            id: -1,
-                            title: 'タイトル', 
-                            description: '説明文', 
-                            body: mkdStr
-                        }}
-                    )
-                }/>
-            <div className="wrapper">  
-                {listBlogs}
-            </div>
-         </div>
+      <div key={index}>
+        <BlogCard
+          id={blog.id}
+          title={blog.title}
+          body={blog.body}
+          createdAt={blog.createdAt}
+          description={blog.description}
+        />
+      </div>
     );
+  });
+
+  return (
+    <div>
+      <Header
+        buttonName="新規作成"
+        onClick={() =>
+          navigate("/edit", {
+            state: {
+              id: -1,
+              title: "タイトル",
+              description: "説明文",
+              body: mkdStr,
+            },
+          })
+        }
+      />
+      <div className="wrapper">{listBlogs}</div>
+    </div>
+  );
 }
