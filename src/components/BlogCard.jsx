@@ -26,7 +26,7 @@ export default function BlogCard(props) {
   const description = cuttingString(props.description, 22);
   return (
     <div style={{ height: "350px", width: "420px" }}>
-      <Card sx={{ width: 420, height: 350 }}>
+      <Card sx={{ width: 380, height: 350 }}>
         <CardActionArea
           onClick={() =>
             navigate("/detail", {
