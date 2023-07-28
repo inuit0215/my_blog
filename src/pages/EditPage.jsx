@@ -39,7 +39,7 @@ export default function EditPage() {
                     title: "${encodeURI(title)}",
                     description: "${encodeURI(description)}",
                     body: "${encodeURI(body)}",
-                    createdAt: "${createdAt}",
+                    createdAt: "${encodeURI(createdAt)}",
                    } ) {
                     id
                     title
