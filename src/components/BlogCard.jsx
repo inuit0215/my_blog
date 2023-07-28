@@ -1,5 +1,4 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -9,6 +8,7 @@ import Fab from "@mui/material/Fab";
 import EditIcon from "@mui/icons-material/Edit";
 import logo from "../assets/icon.png";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 function cuttingString(str, max_length) {
   var modStr;
@@ -26,7 +26,7 @@ export default function BlogCard(props) {
   const description = cuttingString(props.description, 22);
   return (
     <div style={{ height: "350px", width: "420px" }}>
-      <Card sx={{ width: 380, height: 350 }}>
+      <Card sx={{ Width: 420, Height: 350 }}>
         <CardActionArea
           onClick={() =>
             navigate("/detail", {
@@ -40,8 +40,8 @@ export default function BlogCard(props) {
             })
           }
         >
-          <CardMedia component="img" alt="記事" height={200} image={logo} />
-          <CardContent height={150}>
+          <CardMedia component="img" alt="記事" Height={200} image={logo} />
+          <CardContent Height={150}>
             <Typography
               gutterBottom
               variant="h5"
@@ -87,7 +87,6 @@ export default function BlogCard(props) {
   );
 }
 
-// PropTypes for type-checking
 BlogCard.propTypes = {
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
