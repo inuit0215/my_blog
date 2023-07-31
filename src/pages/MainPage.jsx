@@ -60,10 +60,10 @@ export default function MainPage() {
       <div key={index}>
         <BlogCard
           id={blog.id}
-          title={blog.title}
-          body={blog.body}
-          createdAt={blog.createdAt}
-          description={blog.description}
+          title={decodeURI(blog.title)}
+          body={decodeURI(blog.body)}
+          createdAt={decodeURI(blog.createdAt)}
+          description={decodeURI(blog.description)}
         />
       </div>
     );
