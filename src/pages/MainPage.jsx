@@ -3,47 +3,19 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import BlogCard from "../components/BlogCard";
 import "./MainPage.css";
-import { API, graphqlOperation } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
+import { Blog } from "../models";
+import { EXAMPLE_TEXT } from "../components/Constant";
 
-const mkdStr = `
-# マークダウンの例
-
----
-
-**Hello world!!!**
-
-[![](https://avatars.githubusercontent.com/u/1680273?s=80&v=4)](https://avatars.githubusercontent.com/u/1680273?v=4)
-
-\`\`\`javascript
-import React from "react";
-import ReactDOM from "react-dom";
-import MEDitor from '@uiw/react-md-editor';
-
-\`\`\`
-`;
-
-const listBlogsQuery = `
-  query ListBlogs {
-    listBlogs {
-      items {
-        id
-        title
-        body
-        createdAt
-        description
-      }
-    }
-  }
-`;
+const mkdStr = EXAMPLE_TEXT;
 
 export default function MainPage() {
   const [blogs, setBlogs] = useState([]);
 
   async function fetchBlogs() {
     try {
-      const apiData = await API.graphql(graphqlOperation(listBlogsQuery));
-      const blogsData = apiData.data.listBlogs.items;
-      setBlogs(blogsData);
+      const apiData = await DataStore.query(Blog);
+      setBlogs(apiData);
     } catch (error) {
       console.error("Error fetching blogs:", error);
     }

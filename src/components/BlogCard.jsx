@@ -40,8 +40,8 @@ export default function BlogCard(props) {
             })
           }
         >
-          <CardMedia component="img" alt="記事" Height={200} image={logo} />
-          <CardContent Height={150}>
+          <CardMedia component="img" alt="記事" height={200} image={logo} />
+          <CardContent height={150}>
             <Typography
               gutterBottom
               variant="h5"
@@ -58,7 +58,7 @@ export default function BlogCard(props) {
               {description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {props.createdAt}
+              作成日: {props.createdAt.split("T")[0].replaceAll("-", "/")}
             </Typography>
           </CardContent>
         </CardActionArea>

@@ -7,12 +7,14 @@ import { TextField } from "@mui/material";
 import Header from "../components/Header";
 import "./EditPage.css";
 import { PASSWORD } from "../components/Constant";
-import { API, graphqlOperation } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
+import { Blog } from "../models";
 
 export default function EditPage() {
   const [body, setBody] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDesc] = useState("");
+  const [createdAt, setCreatedAt] = useState(new Date().toISOString());
   const [password, setPassWord] = useState("パスワード");
 
   const navigate = useNavigate();
@@ -32,24 +34,13 @@ export default function EditPage() {
           if (password === PASSWORD) {
             if (location.state.id === "-1") {
               try {
-                const createdAt = encodeURI(new Date().toLocaleString());
-                await API.graphql(
-                  graphqlOperation(`
-                  mutation MyMutation {
-                    createBlog(input: { 
-                      title: "${encodeURI(title)}",
-                      description: "${encodeURI(description)}",
-                      body: "${encodeURI(body)}",
-                      createdAt: "${createdAt}",
-                     } ) {
-                      id
-                      title
-                      description
-                      body
-                      createdAt
-                    }
-                  }
-                `)
+                await DataStore.save(
+                  new Blog({
+                    title: encodeURI(title),
+                    description: encodeURI(description),
+                    createdAt: createdAt,
+                    body: encodeURI(body),
+                  })
                 );
               } catch (error) {
                 console.error("Error adding new blog:", error);
@@ -57,25 +48,15 @@ export default function EditPage() {
               navigate("/");
             } else {
               try {
-                const createdAt = encodeURI(new Date().toLocaleString());
-                await API.graphql(
-                  graphqlOperation(`
-                  mutation MyMutation {
-                    updateBlog(input: { 
-                      id: "${location.state.id}",
-                      title: "${encodeURI(title)}",
-                      description: "${encodeURI(description)}",
-                      body: "${encodeURI(body)}",
-                      createdAt: "${createdAt}",
-                     } ) {
-                      id
-                      title
-                      description
-                      body
-                      createdAt
-                    }
-                  }
-                `)
+                setCreatedAt(location.state.createdAt);
+                const original = await DataStore.query(Blog, location.state.id);
+                await DataStore.save(
+                  Blog.copyOf(original, (item) => {
+                    item.title = encodeURI(title);
+                    item.description = encodeURI(description);
+                    item.body = encodeURI(body);
+                    item.createdAt = createdAt;
+                  })
                 );
               } catch (error) {
                 console.error("Error adding new blog:", error);
@@ -88,7 +69,7 @@ export default function EditPage() {
       <div className="Container">
         <TextField
           fullWidth
-          class={"TextField"}
+          style={{ paddingTop: "10px", paddingBottom: "10px" }}
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
@@ -96,7 +77,7 @@ export default function EditPage() {
         />
         <TextField
           fullWidth
-          class={"TextField"}
+          style={{ paddingTop: "10px", paddingBottom: "10px" }}
           value={description}
           onChange={(e) => {
             setDesc(e.target.value);
@@ -112,7 +93,7 @@ export default function EditPage() {
         />
         <TextField
           fullWidth
-          class={"TextField"}
+          style={{ paddingTop: "10px", paddingBottom: "10px" }}
           value={password}
           onChange={(e) => {
             setPassWord(e.target.value);
@@ -123,13 +104,9 @@ export default function EditPage() {
   );
 }
 
-EditPage.propTypes = {
-  location: PropTypes.shape({
-    state: PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-      description: PropTypes.string,
-      body: PropTypes.string,
-    }),
-  }).isRequired,
-};
+EditPage.propTypes = PropTypes.shape({
+  id: PropTypes.number,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  body: PropTypes.string,
+}).isRequired;
