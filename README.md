@@ -1,73 +1,91 @@
-# Getting Started with Create React App
+# ブログ作成
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+コーディング能力向上のため、ブログを作成した。その過程と結果をまとめる。ここでは、細かい学びではなく、大まかな学びについてまとめる。
 
-## Available Scripts
+- [ブログ作成](#ブログ作成)
+  - [制作物](#制作物)
+  - [目的](#目的)
+  - [使用技術](#使用技術)
+  - [学び](#学び)
+  - [NextToDo](#nexttodo)
+  - [参考](#参考)
 
-In the project directory, you can run:
+## 制作物
 
-### `npm start`
+作成したのは[**個人用ブログ**](https://main.d2wfepcu9vhsfm.amplifyapp.com/)である。本ブログの機能は、主に４つある。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. ブログを一覧で閲覧できる/Users/ivm-2023-01/Desktop/Memo/画像/技術/ブログ\_メイン.png
+2. ブログを投稿できる
+3. ブログを編集できる
+4. ブログを削除できる
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+この４つを実装した。下の画像が、ホーム画面である。この画面では、機能 1 を実現している。
 
-### `npm test`
+![メイン画面](image/ブログメイン.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+メイン画面と編集画面と詳細画面に遷移可能。本ブログは、Markdown 記法を用いる。そのため、編集ページには、編集部分とプレビュー部分を実装する。
 
-### `npm run build`
+![編集画面](image/ブログ_編集.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+新規作成では、デフォルトでブログのタイトルと説明文と本文にそれぞれ"タイトル", "説明文" , "マークダウン..."が入っている。各ブログの編集ボタンから遷移する場合、各タイトルと説明文と本文がそれぞれ入っている。そして、パスワードを入れて、登録ボタンを押すと、投稿と編集ができる。よって、機能 2,3 を実現している。
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![詳細画面](image/ブログ_詳細.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+詳細画面ではブログの詳細を見れるほかに、削除ができる。パスワードをいれ、削除ボタンを押すと削除できる。
 
-### `npm run eject`
+## 目的
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+このプロジェクトの目的は、React と AWS(Amazon Web Service)の知識の習得と向上である。特に AWS のクラウド知識を高めることを目的にする。手を動かしながら、クラウド知識を学ぶ。
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 使用技術
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+使用した技術は、
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- React
+- Amplify(AWS)
 
-## Learn More
+である。Web アプリケーションの作成にした理由は、主に二つである。
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. 手元のスマートフォンやパソコンで動かせる
+2. 参考のブログアプリケーションが多い
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+React を選んだ理由は、副業とかにも活かしやすいと考えためである。多くの人・会社が使っている技術であることから情報が多くあることも推測できる。Java Script 系であり、最新で汎用的な技術を採用した。
 
-### Code Splitting
+AWS/GCP/Azure の中から AWS を選んだ理由は、会社の提携先であり多くのサービスが AWS 上で動いているからである。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 学び
 
-### Analyzing the Bundle Size
+- 調べる技術が重要
+  - 英語は勉強するべき
+- 次に活かせるように、学びは定期的にまとめる
+- 細部を気をつけるのは難しい
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+AWS などの最新技術は、説明記事などが多くあるが、参考程度である。一番重要なのは AWS 自身が出しているドキュメントである。ブログの実装時にも、GraphQL でデータを実装できるという説明記事や AWS の記事があった。しかし、結局 GraohQL は使えなかった。バックエンドをいじるページに書いてある情報を読み、解決する必要があった。各ページは適宜更新される。調べる能力が重要だとわかった。
 
-### Making a Progressive Web App
+そして、ドキュメントは英語であり、技術用語がバンバン出てくる。ビルド・デプロイ・CI/CD など、多くの言葉の知識が必要である。英語がわかると、最新技術の理解が早まると感じた。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+不明点を調べながらコードを書いていると、分からなかったところを忘れることが多々ある。その結果、物はできたけど、何も学べていない・次に活かせないということが起こる。そのため、不明点とその解決法、調べるべきことをまとめておくべきである。
 
-### Advanced Configuration
+細部に気をつけるようにしたが、コンポーネントの大きさや位置の調節だけでなく、遷移制御や画面入力は難しいと感じた。パスワードをいつどこでどのように求めるのかなや、どこをタッチするとどこへ推移するのかなど考えるべきことは多い。入力ならば入力キーを数字だけにするか、入力をマスクするのかなど、選択肢も多い。細部は UX に直結するため、実装コストを減らして、簡単に変更できるようにしたい。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## NextToDo
 
-### Deployment
+次に行いたいのは、次の 3 点。
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- React の技術を上げる
+  - RiverPod 的な状態をグローバルに保管する方法
+  - Hooks について勉強する
+- AWS の知識を向上させる
+  - Python と AWS を使って、スクレイピングを定期実行する
+  - AWS の資格勉強
+- LLM を使ったサービスの作成
+  - LLM のオープンソースの実装を自分でも行う
 
-### `npm run build` fails to minify
+> 特定の分野のプロフェッショナルとは、その分野で一通りのミスを経験した人のこと
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+自分で手を動かし自分で知らないこと・分からないことをまとめながら全てを学びとし、プロフェッショナルになれるようにしていきたい。
 
-npx json-server --watch ./src/json/blogs.json
-npm start
+## 参考
+
+- [ブログ](https://main.d2wfepcu9vhsfm.amplifyapp.com/)
+- [GitHub](https://github.com/inuit0215/my_blog)
